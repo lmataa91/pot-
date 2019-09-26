@@ -1,0 +1,80 @@
+import processing.serial.*;
+
+  Serial myPort;        // puerto serial
+  int xPos = 1;         //posicion  horizontal 
+  int Pfp =1000;
+  float inByte=0;//cuadro ancho de la pantalla 
+
+  void setup () {
+    //pantalla 
+    size(1000, 500);
+
+    // lista de puertos variables 
+   
+    println(Serial.list());
+
+    
+    myPort = new Serial(this, Serial.list()[0], 9600);
+    myPort.bufferUntil('\n');
+    background(0);
+    
+    stroke(255,0,0);//color 
+    line (0,100,Pfp,100);//linea 
+    text('4',0,110);//texto
+    stroke(255,0,0);//color 
+    line (0,200,Pfp,200);//linea
+    text('3',0,210);//texto 
+    stroke(255,0,0);
+    line (0,300,Pfp,300);
+    text('2',0,310);//texto 
+     stroke(255,0,0);
+    line (0,400,Pfp,400);
+    text('1',0,410);//texto 
+  }
+  void draw()
+  {stroke (250,128,114);//color 
+    line(xPos,-1*(inByte- height), xPos, -1*(inByte+1-height));// creacion de linea grueso y tamaño 
+
+   
+    if (xPos >= width) {//condicion 
+      xPos = 0;
+      background(0);
+    
+      stroke(255,0,0);//color 
+    line (0,100,Pfp,100);//linea 
+    text('4',0,110);//texto
+    stroke(255,0,0);//color 
+    line (0,200,Pfp,200);
+    text('3',0,210);
+    stroke(255,0,0);
+    line (0,300,Pfp,300);
+    text('2',0,310);
+     stroke(255,0,0);
+    line (0,400,Pfp,400);
+    text('1',0,410);
+    } 
+    else {// condicion si no se cumple if 
+      // posicion horizontal :
+      xPos++;   // posicion horizontal :
+    
+    }
+    }
+  
+  
+
+  void serialEvent (Serial myPort) {
+
+    String inString = myPort.readStringUntil('\n');
+
+    if (inString != null) {//condicion 
+    
+      inString = trim(inString);
+   
+      inByte = float(inString);
+      println(inByte);
+      inByte = map(inByte, 0, 1023, 0, height);//asignacion de valores 
+     
+      
+    
+  }
+  }
